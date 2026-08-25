@@ -1,0 +1,21 @@
+name: Run Bot
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 9am Nairobi (6am UTC) every day
+  workflow_dispatch:  # keeps manual Run button
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install requests
+      - name: Run python main.py
+        run: python main.py
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
